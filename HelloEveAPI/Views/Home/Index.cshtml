@@ -1,0 +1,97 @@
+﻿<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
+    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
+        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
+        is an ideal platform for building RESTful applications on the .NET Framework.</p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Get more libraries</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Web Hosting</h2>
+        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
+    </div>
+</div>
+<h2>Test JSON</h2>
+<div>
+    URL: <input type="text" id="txtURL" style="border:1px solid gray;width:200px;" value="/api/v0/telegram/sendCode" /><input type="button" id="btnExecute" value="Execute JSON" />
+</div>
+<div>
+    Input JSON:<br />
+    <textarea id="txtInput" cols="40" rows="5" style="border:1px solid gray;max-width:1100px;width:1100px; height:200px;font-family:Consolas;font-size:11px;"></textarea>
+</div>
+<div>
+    Output JSON:<br />
+    <textarea id="txtOutput" cols="40" rows="5" style="border:1px solid gray;max-width:1100px;width:1100px; height:200px;font-family:Consolas;font-size:11px;"></textarea>
+</div>
+
+@section scripts
+    {
+    <script type="text/javascript">
+
+        $('#btnExecute').click(function () {
+            execute();
+        });
+        function execute() {
+            $.ajax({
+                url: document.URL + txtURL.value,
+                beforeSend: function (xhr) {
+                    //xhr.setRequestHeader('X-Device-Identifier', txtXID.value);
+                    // xhr.setRequestHeader('Authorization', 'Basic ' + btoa('kbr@o-x.ch' + ':' + 'ronaldo2015'));
+                    //xhr.setRequestHeader('Accept-Language', txtLNG.value);
+                    //xhr.setRequestHeader('Accept-Currency', txtWAE.value)
+                },
+                type: 'POST',
+                dataType: "json",
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+                data: txtInput.value,
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    txtOutput.value = JSON.stringify(data);
+                },
+                error: function (data) {
+                    txtOutput.value = 'Failed!\n' + data;
+                }
+            });
+        }
+
+        // SignalR API
+        @*@Scripts.Render("/api/signalr/hubs")*@
+        //$(document).ready(function () {
+
+        //    $.connection.hub.logging = true;
+
+        //    $.connection.hub.start()
+        //    .done(function ()
+        //    {
+        //        console.log('Now connected, connection ID=' + $.connection.id);
+
+        //        $('.CloseBST').on('click', function ()
+        //        {
+        //            myHub.server.RefreshPage();
+        //        })
+
+        //    })
+
+        //    .fail(function(reason)
+        //    {
+        //        console.log('Could not connect' + reason);
+        //    })
+        //});
+    </script>
+}
+
+
