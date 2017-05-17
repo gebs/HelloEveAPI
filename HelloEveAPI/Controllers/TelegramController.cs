@@ -76,14 +76,11 @@ namespace HelloEveAPI.Controllers
                     return tmp;
                 });
 
-                if (!req.UserId.HasValue || req.UserId.Value == 0)
-                {
-                    var user = Task.Run(async () => { return await ImportAndGetUser(client.Result, req.PhoneNumber); }); ;
-                    req.UserId = user.Result.userId;
-                }
-
-                var tno = Task.Run(async () => { return await client.Result.SendDirectMessage(req.UserId.Value, req.Message); });
-                resp.UserId = req.UserId;
+            
+                var user = Task.Run(async () => { return await ImportAndGetUser(client.Result, req.PhoneNumber); }); ;
+                
+                var tno = Task.Run(async () => { return await client.Result.SendDirectMessage(user.Result.userId, req.Message); });
+                
                 resp.Successfull = true;
             }
             catch (Exception e)
